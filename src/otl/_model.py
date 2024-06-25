@@ -2,16 +2,19 @@ from __future__ import annotations
 
 
 class FoundationLanguageModel:
-    def __init__(self):
+    model_name: str
+    def __init__(self) -> None:
         self.model_name
 
-
-    def chat(self):
-        pass
+    def __call__(self):
+        raise NotImplementedError
 
 
 class LocalLanguageModel(FoundationLanguageModel):
-    pass
+    def __init__(self) -> None:
+        self.tokenizer
+        self.llm
+
 
 class RemoteLanguageModel(FoundationLanguageModel):
     pass

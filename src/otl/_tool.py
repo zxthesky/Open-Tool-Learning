@@ -6,7 +6,7 @@ class Tool:
     tool_name: str
     tool_description: str
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.tool_name
         self.tool_description
 
@@ -23,5 +23,5 @@ class RemoteTool(Tool):
 class ToolPool:
     pool: List[Tool]
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.pool: List[Tool]
