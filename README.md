@@ -1,19 +1,46 @@
 # Open Tool Learning
 
+## src: otl
 
-### LLM
+### agent
 
+core class
 
+### chat
 
-### Dataset
+chat history and chat template
 
-API-Bank
+### data
 
-ToolEyes
+data preprocessing，load
 
-ToolTalk
+### document
 
-SoAyBench
+extra document process module for RAG
+
+### llm
+
+foundation model
+
+### process
+
+format the answer text, ...
+
+### retrieval
+
+### tool
+
+tool_pool information and execution
+
+### types
+
+type checking
+
+### utils
+
+logging , file io
+
+## Format
 
 ### Tool Format
 
