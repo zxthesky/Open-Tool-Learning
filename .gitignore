@@ -1,2 +1,8 @@
 data/*/
 !data/dataset_sample/
+
+# Python Cache
+**/__pycache__/
+
+# Mac System File
+**/.DS_Store

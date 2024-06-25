@@ -24,9 +24,9 @@ class Agent:
     '''
     def __init__(self):
 
-        self.name
-        self.description
-        self.system_message = "You are a helpful assistant."
+        self.name: str
+        self.description: str
+        self.system_message: str = "You are a helpful assistant."
 
         self.llm
 
