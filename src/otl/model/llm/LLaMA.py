@@ -5,7 +5,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from ..._model import LocalLanguageModel
 
 class LLaMA(LocalLanguageModel):
-    def __init__(self,checkpoint_path=''):
+    def __init__(self,checkpoint_path: str) -> None:
         self.model_name = 'LLaMA'
 
         self.checkpoint_path = checkpoint_path

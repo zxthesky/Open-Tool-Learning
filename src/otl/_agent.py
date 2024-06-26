@@ -1,8 +1,29 @@
 from __future__ import annotations
 
 
-class Agent:
-    '''A base class for Agent.
+class BasicAgent:
+    '''A basic class for agent.
+
+    Agent Information:
+        self.name
+        self.description
+
+    Foundation Model:
+        self.llm
+    '''
+    def __init__(self) -> None:
+
+        self.name: str
+        self.description: str
+
+        self.llm
+
+    def load_llm(self) -> None:
+        pass
+
+
+class ChatAgent(BasicAgent):
+    '''A chat agent with tool learning and retrieval modules.
 
     Agent Information:
         self.name
@@ -22,7 +43,7 @@ class Agent:
     Retrieval Module:
         self.retrieval
     '''
-    def __init__(self):
+    def __init__(self) -> None:
 
         self.name: str
         self.description: str
@@ -37,5 +58,5 @@ class Agent:
 
         self.tool_retrieval
 
-    def clear_history(self):
+    def clear_history(self) -> None:
         self.chat_history = [{"role": "system", "content": self.system_message}]
