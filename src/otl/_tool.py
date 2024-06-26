@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List
+from typing import Dict, List
 
 class BasicToolCallingModule:
     def __init__(self) -> None:
@@ -18,17 +18,30 @@ class BasicTool:
     def __call__(self):
         pass
 
-class LocalTool(BasicTool):
+    def __eq__(self, other):
+        # if isinstance(other, class_name):
+        #     return self.name == other.name
+        # return False
+        raise NotImplementedError
+
+    def __hash__(self):
+        # return hash((self.name, self.description))
+        raise NotImplementedError
+
+
+class BasicLocalTool(BasicTool):
     pass
 
-class RemoteTool(BasicTool):
+
+class BasicRemoteTool(BasicTool):
     pass
+
 
 class BasicToolPool:
     pool: List[BasicTool]
 
     def __init__(self) -> None:
-        self.pool: List[BasicTool]
+        self.pool: Dict[str, List[BasicTool]]
 
     def add_tool(self) -> None:
         pass

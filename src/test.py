@@ -11,3 +11,6 @@ if __name__ == "__main__":
 
     checkpoint_path = "..."
     agent.load_llm("LLaMA", checkpoint_path)
+    agent.load_module()
+
+    
