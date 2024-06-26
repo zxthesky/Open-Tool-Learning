@@ -1,5 +1,7 @@
-
+from typing import Any, Dict
 
 class BasicVectorStore:
     def __init__(self) -> None:
-        pass
+        self.storage: Dict[str, Any]
+
+    
