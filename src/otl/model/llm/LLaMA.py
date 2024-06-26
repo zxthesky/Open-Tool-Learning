@@ -1,24 +1,26 @@
+from typing import List
 
-from transformers import AutoTokenizer, LlamaForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM
 
 from ..._model import LocalLanguageModel
 
 class LLaMA(LocalLanguageModel):
     def __init__(self,checkpoint_path=''):
+        self.model_name = 'LLaMA'
+
         self.checkpoint_path = checkpoint_path
 
         self.tokenizer = AutoTokenizer.from_pretrained(self.checkpoint_path, trust_remote_code=True)
-        # self.model = LlamaForCausalLM.from_pretrained(self.checkpoint_path, trust_remote_code=True).half().cuda()
-        self.model = LlamaForCausalLM.from_pretrained(self.checkpoint_path, trust_remote_code=True, device_map="auto")
-        self.model_name = 'LLaMA'
-        self.model.eval()
+        self.llm = AutoModelForCausalLM.from_pretrained(self.checkpoint_path, trust_remote_code=True, device_map="auto") # torch_dtype=torch.bfloat16,
+        self.llm.eval()
 
-    def __call__(self,input_text):
+    def __call__(self,
+        input_text: str,
+        max_new_length: int=256) -> str:
+        inputs = self.tokenizer(input_text, return_tensors="pt")
         try:
-            inputs = self.tokenizer(input_text, return_tensors="pt")
-            generate_ids = self.model.generate(inputs.input_ids.cuda(), max_new_tokens=256)#2048
-            output = self.tokenizer.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
-            return output, output[len(input_text):]
+            generate_ids = self.model.generate(inputs.input_ids.cuda(), max_new_tokens=max_new_length)
         except:
-            output = ''
-            return output, output
+            pass
+        outputs = self.tokenizer.decode(generate_ids[0][inputs.input_ids.shape[-1]:], skip_special_tokens=True)
+        return outputs
