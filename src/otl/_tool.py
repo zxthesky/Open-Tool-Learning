@@ -2,7 +2,12 @@ from __future__ import annotations
 
 from typing import List
 
-class Tool:
+class BasicToolCallingModule:
+    def __init__(self) -> None:
+        self.tool_pool: BasicToolPool
+
+
+class BasicTool:
     tool_name: str
     tool_description: str
 
@@ -10,18 +15,23 @@ class Tool:
         self.tool_name
         self.tool_description
 
-
     def __call__(self):
         pass
 
-class LocalTool(Tool):
+class LocalTool(BasicTool):
     pass
 
-class RemoteTool(Tool):
+class RemoteTool(BasicTool):
     pass
 
-class ToolPool:
-    pool: List[Tool]
+class BasicToolPool:
+    pool: List[BasicTool]
 
     def __init__(self) -> None:
-        self.pool: List[Tool]
+        self.pool: List[BasicTool]
+
+    def add_tool(self) -> None:
+        pass
+
+    def remove_tool(self) -> None:
+        pass

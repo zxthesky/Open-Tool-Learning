@@ -2,29 +2,30 @@ from typing import List
 
 from .._agent import ChatAgent
 from .._model import FoundationLanguageModel
+from .._chat import BasicChatManagementModule
+from .._tool import BasicToolCallingModule
+
+from ..chat import ChatManagementModule
+from ..tool import ToolCallingModule
 
 class Agent(ChatAgent):
     def __init__(self,
-        name: str = "",
-        description: str = "") -> None:
+        name: str = "Agent",
+        description: str = "A chat agent which is euipped with tool learning and RAG.",
+        ) -> None:
         self.name: str = name
         self.description: str = description
-        self.system_message: str = "You are a helpful assistant."
 
         self.llm: FoundationLanguageModel = None
 
-        self.chat_history: List[dict] = [{"role": "system", "content": self.system_message}]
-        self.chat_template = None
+        self.chat_management: BasicChatManagementModule = ChatManagementModule()
 
-        self.tool_calling = None
+        self.tool_calling: BasicToolCallingModule = ToolCallingModule()
 
-        self.tool_retrieval = None
-
-    def clear_history(self) -> None:
-        self.chat_history = [{"role": "system", "content": self.system_message}]
 
     def load_llm(self, model_name, model_checkpoint) -> None:
         from ..model.llm import AutoModel
         self.llm = AutoModel(model_name, checkpoint_path=model_checkpoint)
 
-    
+    def
+
