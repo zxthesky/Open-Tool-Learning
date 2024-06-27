@@ -1,8 +1,10 @@
 from typing import Any, List
 
-from .._retrieval import BasicLocalEmbedder
+import torch
 
-class LocalEmbedder(BasicLocalEmbedder):
+from .._embedding import BasicLocalEmbedder
+
+class LocalHuggingFaceEmbedder(BasicLocalEmbedder):
     def __init__(self, checkpoint_path) -> None:
         from transformers import AutoModel, AutoTokenizer
         self.tokenizer = AutoTokenizer.from_pretrained(checkpoint_path)
@@ -12,4 +14,6 @@ class LocalEmbedder(BasicLocalEmbedder):
         batch_dict = self.tokenizer(inputs, padding=True, truncation=True, return_tensors='pt')
         outputs = self.model(**batch_dict)
         embeddings = outputs.last_hidden_state[:, 0]
-        return embeddings #TODO 自定义embedding格式
+        embedding_tuple = torch.unbind(embeddings,dim=0)
+        embedding_list = list(embedding_tuple)
+        return embedding_list #TODO 自定义embedding格式

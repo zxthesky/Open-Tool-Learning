@@ -5,7 +5,6 @@ import otl
 from otl.agents import Agent
 
 
-
 if __name__ == "__main__":
     agent = Agent()
 

@@ -2,22 +2,24 @@ from typing import Dict, Set, Tuple
 
 
 from .._tool import BasicToolPool, BasicTool
+from .._embedding import BasicEmbedder
 from .._vectorstore import BasicVectorStore
 
 from ..vectorstore import TensorStore
 from ..utils import generate_random_key
+from ..prompt.tool import ToolPrompt
 
 class ToolPool(BasicToolPool):
     def __init__(self) -> None:
         pass
 
 class RetrievableToolPool(BasicToolPool):
-    def __init__(self) -> None:
+    def __init__(self, embedder: BasicEmbedder) -> None:
         self.id_list: Set[str] = set()
         self.tools: Dict[str, BasicTool] = dict()
         self.vectors: BasicVectorStore = TensorStore()
-
-        self.retriever
+        self.embedder: BasicEmbedder = embedder
+        self.toolprompt = ToolPrompt()
 
     def add_tool(self, tool: BasicTool, check: bool = False) -> str:
         if check:
@@ -31,7 +33,7 @@ class RetrievableToolPool(BasicToolPool):
                 break
         self.id_list.add(tool_id)
         self.tools[tool_id] = tool
-        self.vectors.add(tool_id, _) #TODO TensorStore add方法
+        self.vectors.add(self.embedder, tool_id, self.toolprompt.get_prompt_for_retrieval(tool)) #TODO TensorStore add方法
         return tool_id
 
     def remove_tool(self, tool_id: str) -> None:
