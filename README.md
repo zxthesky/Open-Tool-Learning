@@ -6,9 +6,9 @@ A LLM Function Calling Tool-kit for Tool Learning research.
 
 ## Contents
 
-- [Ⅰ Support](#Ⅰ Support)
-- [Ⅱ Format](#Ⅱ Format)
-- [Ⅲ Code Catalog](#Ⅲ Code Catalog)
+- [Ⅰ Support](##Ⅰ-support)
+- [Ⅱ Format](##Ⅱ-format)
+- [Ⅲ Code Catalog](##Ⅲ-code-catalog)
 
 ## Ⅰ Support
 
