@@ -14,6 +14,5 @@ class LocalHuggingFaceEmbedder(BasicLocalEmbedder):
         batch_dict = self.tokenizer(inputs, padding=True, truncation=True, return_tensors='pt')
         outputs = self.model(**batch_dict)
         embeddings = outputs.last_hidden_state[:, 0]
-        embedding_tuple = torch.unbind(embeddings,dim=0)
-        embedding_list = list(embedding_tuple)
+        embedding_list = [sub_embedding.tolist() for sub_embedding in embeddings]
         return embedding_list #TODO 自定义embedding格式

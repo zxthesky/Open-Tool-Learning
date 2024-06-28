@@ -1,5 +1,5 @@
-from .torch_tensor_store import TensorStore
+from .store import VectorStore
 
 __all__ = [
-    "TensorStore",
+    "VectorStore",
 ]
