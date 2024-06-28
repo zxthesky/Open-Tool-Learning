@@ -7,8 +7,9 @@ A LLM Function Calling Tool-kit for Tool Learning research.
 ## Contents
 
 - [Ⅰ Support](##Ⅰ-support)
-- [Ⅱ Format](##Ⅱ-format)
-- [Ⅲ Code Catalog](##Ⅲ-code-catalog)
+- [Ⅱ Architecture](##Ⅱ-architecture)
+- [Ⅲ Format](##Ⅲ-format)
+- [Ⅳ Code Catalog](##Ⅳ-code-catalog)
 
 ## Ⅰ Support
 
@@ -22,10 +23,12 @@ A LLM Function Calling Tool-kit for Tool Learning research.
 
 ### Retriever
 
+## Ⅱ Architecture
+
+![architecture](asset/architecture.png)
 
 
-
-## Ⅱ Format
+## Ⅲ Format
 
 ### Tool Format
 
@@ -57,7 +60,7 @@ A LLM Function Calling Tool-kit for Tool Learning research.
 
 
 
-## Ⅲ Code Catalog
+## Ⅳ Code Catalog
 
 ### agent
 
