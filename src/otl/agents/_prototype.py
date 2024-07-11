@@ -34,7 +34,5 @@ class ChatAgent(BasicAgent):
         self.retrieval
     '''
     def __init__(self) -> None:
-
         self.chat_management
-
         self.tool_calling

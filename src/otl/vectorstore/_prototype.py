@@ -10,4 +10,3 @@ class BasicVectorStore:
     
     def remove(self) -> None:
         raise NotImplementedError
-    

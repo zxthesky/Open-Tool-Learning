@@ -1,4 +1,4 @@
-from .._chat import BasicChatManagementModule
+from ..chat._prototype import BasicChatManagementModule
 
 class ChatManagementModule(BasicChatManagementModule):
     def __init__(self) -> None:

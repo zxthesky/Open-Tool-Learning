@@ -1,6 +1,6 @@
 
-from .._tool import BasicToolCallingModule
-from .._retrieval import BasicRetriever
+from ..tool._prototype import BasicToolCallingModule
+from ..retrieval._prototype import BasicRetriever
 
 class ToolCallingModule(BasicToolCallingModule):
     def __init__(self, retriever: BasicRetriever) -> None:

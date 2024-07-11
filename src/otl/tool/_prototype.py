@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from typing import Any, Dict, List
 
-from ._retrieval import BasicRetriever
-from ._vectorstore import BasicVectorStore
-from ._embedding import BasicEmbedder
+from ..retrieval._prototype import BasicRetriever
+from ..vectorstore._prototype import BasicVectorStore
+from ..embedding._prototype import BasicEmbedder
 
 class BasicToolCallingModule:
     set_list: List[str]

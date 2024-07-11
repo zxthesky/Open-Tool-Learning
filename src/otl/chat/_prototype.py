@@ -12,4 +12,3 @@ class BasicChatManagementModule:
 
     def clear_history(self) -> None:
         self.chat_history = [{"role": "system", "content": self.system_message}]
-

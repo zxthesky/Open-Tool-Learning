@@ -2,8 +2,8 @@ from typing import Any, List, Literal
 
 import numpy as np
 
-from .._retrieval import BasicRetriever
-from .._vectorstore import BasicVectorStore
+from ..retrieval._prototype import BasicRetriever
+from ..vectorstore._prototype import BasicVectorStore
 
 import heapq
 def top_k_keys_by_value(d, k):

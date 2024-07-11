@@ -1,4 +1,4 @@
-from src.otl.utils import read_JSON,write_JSON
+from ..utils import read_JSON,write_JSON
 
 import json
 

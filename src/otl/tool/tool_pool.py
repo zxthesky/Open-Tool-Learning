@@ -1,9 +1,9 @@
 from typing import Dict, Set, Tuple
 
 
-from .._tool import BasicToolPool, BasicTool
-from .._embedding import BasicEmbedder
-from .._vectorstore import BasicVectorStore
+from ..tool._prototype import BasicToolPool, BasicTool
+from ..embedding._prototype import BasicEmbedder
+from ..vectorstore._prototype import BasicVectorStore
 
 from ..vectorstore import TensorStore
 from ..utils import generate_random_key

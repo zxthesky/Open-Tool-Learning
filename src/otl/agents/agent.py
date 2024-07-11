@@ -1,10 +1,10 @@
 from typing import Any, List
 
-from .._agent import ChatAgent
-from .._model import FoundationLanguageModel
-from .._chat import BasicChatManagementModule
-from .._tool import BasicToolCallingModule
-from .._retrieval import BasicRetriever
+from ._prototype import ChatAgent
+from ..model._prototype import FoundationLanguageModel
+from ..chat._prototype import BasicChatManagementModule
+from ..tool._prototype import BasicToolCallingModule
+from ..retrieval._prototype import BasicRetriever
 
 from ..chat import ChatManagementModule
 from ..tool import ToolCallingModule

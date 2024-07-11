@@ -1,11 +1,10 @@
-from src.otl.model.llm.LLaMA import LLaMA
-from src.otl.model.llm.Chatgpt import Chatgpt
-from src.otl.data.dataset.API_Bank import API_Bank
-from src.otl.data.dataset.ToolEyes import ToolEyes
-from src.otl.data.dataset.ToolTalk import ToolTalk
-from src.otl.data.dataset.SoAy import SoAy
-from src.otl.data.general_dataset import General_dataset
-from src.otl.data.one_data import one_data
+from ..model.llm.LLaMA import LLaMA
+from ..data.dataset.API_Bank import API_Bank
+from ..data.dataset.ToolEyes import ToolEyes
+from ..data.dataset.ToolTalk import ToolTalk
+from ..data.dataset.SoAy import SoAy
+from ..data.general_dataset import General_dataset
+from ..data.one_data import one_data
 
 import argparse
 import re
@@ -103,8 +102,6 @@ def get_model(args):
     model_path = args.model_path
     if model_name == "llama3":
         model = LLaMA(checkpoint_path=model_path)
-    elif model_name == "gpt":
-        model = Chatgpt(api_key=args.openai_key)
     else:
         model = LLaMA(checkpoint_path=model_path)
     return model
