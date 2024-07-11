@@ -1,6 +1,6 @@
 
-from ._version import __version__
-from .utils._log import setup_logging as _setup_logging
+from src.otl._version import __version__
+from src.otl.utils._log import setup_logging as _setup_logging
 logger = _setup_logging()
 
 __all__ = [
