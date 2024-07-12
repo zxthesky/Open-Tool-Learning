@@ -18,6 +18,7 @@ dependencies = [
     "wheel",
     "torch",
     "transformers",
+    "openai",
     "peft",
 ]
 
