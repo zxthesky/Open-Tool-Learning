@@ -10,57 +10,37 @@ on:  # 这里我设置了两个事件，一般的push tag以v开头，用来测�
 jobs:
   # Build the documentation and upload the static HTML files as an artifact.
   build_wheels:  # 这里分别用了别人现成的脚本来在多平台上编译，实际上这个任务要在每个os上面都跑一遍
-    name: Build wheels on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:  # 这里为什么叫matrix？因为它会根据给出的所有条件做MxN次，不过我这里用的脚本不需要给出Python版本
-        os: [ubuntu-latest, windows-latest]  # 没有macos，因为我的编译没通过。。。
-    steps:
-
-    - uses: actions/checkout@v4
-      with:
-        submodules: 'recursive'
-
-    - name: build wheels
-      uses: pypa/cibuildwheel@v2.16.5
-      env:
-        CIBW_BUILD_FRONTEND: build
-        CIBW_SKIP: "*-win32 *-manylinux_i686 pp*"  # 按照这里的设置，所有允许的python版本都要执行64位编译
-
-    - uses: actions/upload-artifact@v4
-      with:
-        name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
-        path: ./wheelhouse/*.whl
-
-
-
-  build_sdist:  # 源代码打包单平台即可
-    name: Build source distribution
+    name: Build wheels
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@master
 
-      - name: Build sdist
-        run: pipx run build --sdist
-
-      - uses: actions/upload-artifact@v4
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v1
         with:
-          name: cibw-sdist
-          path: dist/*.tar.gz
+          python-version: 3.10
 
-  upload:  # 上传到PyPI，注意我这里需要在前两个任务完成的情况下才能执行
-    needs: [build_wheels, build_sdist]
+      - name: Install pypa/build
+        run: >-
+          python -m
+          pip install
+          build
+          --user
+      - name: Build a binary wheel and a source tarball
+        run: >-
+          python -m
+          build
+          --sdist
+          --wheel
+          --outdir dist/
+          .
+
+  upload:  # 上传到PyPI，注意我这里需要在前任务完成的情况下才能执行
+    needs: [build_wheels]
     runs-on: ubuntu-latest  # 这里也是只用一个系统，否则会有问题（）
     environment: pypi
-    permissions:
-      id-token: write  # 这里很重要，因为我启用了PyPI白名单，需要将临时生成的token写到任务程序里
     steps:
-    - uses: actions/download-artifact@v4  # 由于这个系统跟前面的不一样，所以前两个任务需要先上载打好的包，这里再下下来
-      with:
-        # unpacks all CIBW artifacts into dist/
-        pattern: cibw-*
-        path: dist
-        merge-multiple: true
 
     - name: publish to Test PyPI
       uses: pypa/gh-action-pypi-publish@v1.8.12
