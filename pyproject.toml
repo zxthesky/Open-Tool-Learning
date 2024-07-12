@@ -23,7 +23,7 @@ dependencies = [
 ]
 
 [tool.setuptools_scm]
-version_file = "toolagent/_version.py"
+version_file = "src/toolagent/_version.py"
 
 [tool.setuptools.packages.find]
 where = ["src"]
