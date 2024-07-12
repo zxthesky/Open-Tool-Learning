@@ -46,7 +46,6 @@ jobs:
       uses: pypa/gh-action-pypi-publish@v1.8.12
       with:
         repository-url: https://test.pypi.org/legacy/
-        packages-dir: dist/
         user: __token__
         password: ${{ secrets.TESTPYPI_API_TOKEN }}
 
@@ -54,6 +53,5 @@ jobs:
       if: github.event_name == 'release' && github.event.action == 'published'  # 有了这句话才能只在发布的时候执行
       uses: pypa/gh-action-pypi-publish@v1.8.12
       with:
-        packages-dir: dist/
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
