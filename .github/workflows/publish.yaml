@@ -36,22 +36,16 @@ jobs:
           --outdir dist/
           .
 
-  upload:  # 上传到PyPI，注意我这里需要在前任务完成的情况下才能执行
-    needs: [build_wheels]
-    runs-on: ubuntu-latest  # 这里也是只用一个系统，否则会有问题（）
-    environment: pypi
-    steps:
+      - name: publish to Test PyPI
+        uses: pypa/gh-action-pypi-publish@v1.8.12
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          user: __token__
+          password: ${{ secrets.TESTPYPI_API_TOKEN }}
 
-    - name: publish to Test PyPI
-      uses: pypa/gh-action-pypi-publish@v1.8.12
-      with:
-        repository-url: https://test.pypi.org/legacy/
-        user: __token__
-        password: ${{ secrets.TESTPYPI_API_TOKEN }}
-
-    - name: publish to PYPI
-      if: github.event_name == 'release' && github.event.action == 'published'  # 有了这句话才能只在发布的时候执行
-      uses: pypa/gh-action-pypi-publish@v1.8.12
-      with:
-        user: __token__
-        password: ${{ secrets.PYPI_API_TOKEN }}
+      - name: publish to PYPI
+        if: github.event_name == 'release' && github.event.action == 'published'  # 有了这句话才能只在发布的时候执行
+        uses: pypa/gh-action-pypi-publish@v1.8.12
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
