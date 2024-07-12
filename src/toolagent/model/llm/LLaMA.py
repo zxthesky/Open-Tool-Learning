@@ -2,7 +2,7 @@ from typing import List
 
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-from ..._model import LocalLanguageModel
+from ...model._prototype import LocalLanguageModel
 
 class LLaMA(LocalLanguageModel):
     def __init__(self, checkpoint_path: str) -> None:

@@ -16,6 +16,9 @@ authors = [
 dependencies = [
     "setuptools",
     "wheel",
+    "torch",
+    "transformers",
+    "peft",
 ]
 
 [tool.setuptools_scm]
