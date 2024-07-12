@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "toolagent"
+dynamic = ["version"]
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Mengsong Wu", email = "radi.cat@qq.com" },
+    { name = "Xiang Zhang" },
+    { name = "Han Han"},
+]
+dependencies = [
+    "setuptools",
+    "wheel",
+]
+
+[tool.setuptools_scm]
+version_file = "src/toolagent/_version.py"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["toolagent"]
+
