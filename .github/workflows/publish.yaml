@@ -9,28 +9,32 @@ on:  # 这里我设置了两个事件，一般的push tag以v开头，用来测�
       - 'v*'
 jobs:
   # Build the documentation and upload the static HTML files as an artifact.
-  build_wheels:  # 这里分别用了别人现成的脚本来在多平台上编译，实际上这个任务要在每个os上面都跑一遍
+  build_wheels:
     name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
-      matrix:  # 这里为什么叫matrix？因为它会根据给出的所有条件做MxN次，不过我这里用的脚本不需要给出Python版本
-        os: [ubuntu-latest, windows-latest]  # 没有macos，因为我的编译没通过。。。
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-13, macos-14]
+
     steps:
+      - uses: actions/checkout@v4
 
-    - uses: actions/checkout@v4
-      with:
-        submodules: 'recursive'
+      # Used to host cibuildwheel
+      - uses: actions/setup-python@v5
 
-    - name: build wheels
-      uses: pypa/cibuildwheel@v2.16.5
-      env:
-        CIBW_BUILD_FRONTEND: build
-        CIBW_SKIP: "*-win32 *-manylinux_i686 pp*"  # 按照这里的设置，所有允许的python版本都要执行64位编译
+      - name: Install cibuildwheel
+        run: python -m pip install cibuildwheel
 
-    - uses: actions/upload-artifact@v4
-      with:
-        name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
-        path: ./wheelhouse/*.whl
+      - name: Build wheels
+        run: python -m cibuildwheel --output-dir wheelhouse
+        # to supply options, put them in 'env', like:
+        # env:
+        #   CIBW_SOME_OPTION: value
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
+          path: ./wheelhouse/*.whl
 
   build_sdist:  # 源代码打包单平台即可
     name: Build source distribution
