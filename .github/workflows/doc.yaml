@@ -2,8 +2,7 @@ name: Deploy Documention to Github Page
 on:
   push:
     branches:
-      - master 
-      - main
+      - master
 permissions:
   contents: write
 jobs:
