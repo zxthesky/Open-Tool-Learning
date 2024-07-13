@@ -33,6 +33,8 @@ jobs:
           restore-keys: |
             mkdocs-material-
 
+      - run: mkdir .cache
+
       - name: Install Python dependencies
         run: |
           pip install mkdocs-material
