@@ -1,10 +1,10 @@
-from ..utils import read_JSON,write_JSON
+from ..utils import read_JSON, write_JSON
 
 import json
 
+
 class General_dataset:
     def __init__(self, filename, write_filename="", template="default"):
-
         self.filename = filename
         self.write_filename = write_filename
         self.template = template
@@ -17,9 +17,5 @@ class General_dataset:
     # rewrite according to dataset you need to handle,I cut each assistant into the input and output of the model.
 
 
-
 if __name__ == "__main__":
     print("dsadas")
-
-
-

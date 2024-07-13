@@ -7,3 +7,6 @@ src/toolagent/_version.py
 
 # Mac System File
 **/.DS_Store
+
+#mkdocs
+site/**

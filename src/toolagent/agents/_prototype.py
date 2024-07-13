@@ -2,7 +2,7 @@ from __future__ import annotations
 
 
 class BasicAgent:
-    '''A basic class for agent.
+    """A basic class for agent.
 
     Agent Information:
         self.name
@@ -10,9 +10,9 @@ class BasicAgent:
 
     Foundation Model:
         self.llm
-    '''
-    def __init__(self) -> None:
+    """
 
+    def __init__(self) -> None:
         self.name: str
         self.description: str
         self.llm
@@ -22,7 +22,7 @@ class BasicAgent:
 
 
 class ChatAgent(BasicAgent):
-    '''A chat agent with tool learning and retrieval modules.
+    """A chat agent with tool learning and retrieval modules.
 
     Chat Relevant Information:
         self.chat_management
@@ -32,7 +32,8 @@ class ChatAgent(BasicAgent):
 
     Retrieval Module:
         self.retrieval
-    '''
+    """
+
     def __init__(self) -> None:
         self.chat_management
         self.tool_calling
