@@ -4,11 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "toolagent"
-version = "0.0.1dev"
+dynamic = ["version"]
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
 authors = [
+    { name = "Mengsong Wu", email = "radi.cat@qq.com" },
+]
+maintainers = [
     { name = "Mengsong Wu", email = "radi.cat@qq.com" },
     { name = "Xiang Zhang" },
     { name = "Han Han"},
@@ -29,3 +32,7 @@ version_file = "src/toolagent/_version.py"
 where = ["src"]
 include = ["toolagent"]
 
+[project.urls]
+"Homepage" = "https://github.com/fairyshine/Open-Tool-Learning"
+"Bug Tracker" = "https://github.com/fairyshine/Open-Tool-Learning/issues"
+"Source" = "https://github.com/fairyshine/Open-Tool-Learning/"
