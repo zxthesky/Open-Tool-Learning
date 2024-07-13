@@ -1,29 +1,34 @@
-name: Deploy Documention to Github Page
+name: documentation
 on:
   push:
     branches:
       - master
+
+env:
+  PYTHON_VERSION: 3.10.14
+
 permissions:
   contents: write
-  pages: write
   id-token: write
+  pages: write
+
 jobs:
-  deploy:
+  documentation:
+    name: Build documentation
     runs-on: ubuntu-latest
     steps:
-      # 检出仓库代码 
-      - uses: actions/checkout@v4
 
-      - name: Configure Git Credentials
-        run: |
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Python runtime
         uses: actions/setup-python@v5
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: pip
+          cache-dependency-path: |
+            pyproject.toml
+            requirements.txt
 
       - name: Set up build cache
         uses: actions/cache/restore@v4
@@ -33,17 +38,17 @@ jobs:
           restore-keys: |
             mkdocs-material-
 
-      - run: mkdir .cache
-
       - name: Install Python dependencies
         run: |
           pip install mkdocs-material
           pip install "mkdocstrings[python]"
-          pip install .[recommended,git,imaging]
 
       - name: Build documentation
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           mkdocs build --clean
+          mkdocs --version
 
       - name: Adjust permissions
         run: |
