@@ -1,21 +1,27 @@
 import json
 import re
+from ...utils import read_JSON,write_JSON
 
-from toolagent.utils import read_JSON, write_JSON
-
-'''
-Pass in "scenario_data_zero_processed.json“ 
-'''
 
 
 class ToolEyes:
-    def __init__(self, filename, write_filename=""):
+    """ dataset ToolEyes
+
+    该类是ToolEyes数据集的处理
+
+    Attributes:
+        filename (str): the path of the file
+
+    Example:
+        >>> ToolEyes = ToolEyes("...")
+
+    """
+    def __init__(self, filename):
         self.filename = filename
-        self.write_filename = write_filename
         self.data = []
 
     def load_data(self):
-        self.data.extend(process_data(self.filename, self.write_filename))
+        self.data.extend(process_data(self.filename))
 
 def process_system(input):
     candidate_tools_str = re.search("\[[\s\S]*\]", input).group(0)
@@ -40,7 +46,7 @@ def get_conersation_and_candidate_tools(conversations):
         final_conversation.append(temp_conversation)
     return final_conversation, candidate_tools
 
-def process_data(filename, write_filename=""):
+def process_data(filename):
     all_data = read_JSON(filename)
     final_data_lst = []
     for data in all_data:
@@ -56,8 +62,7 @@ def process_data(filename, write_filename=""):
                 break
         final_data_need["query"] = query
         final_data_lst.append(final_data_need)
-    if write_filename != "":
-        write_JSON(write_filename, final_data_lst)
+
     return final_data_lst
 
 

@@ -1,12 +1,22 @@
-import ast
 import json
-import os
 import re
-
-from toolagent.utils import read_JSON, write_JSON
+from ...utils import read_JSON,write_JSON
+import os
+import ast
 
 
 class ToolTalk:
+    """ dataset ToolTalk
+
+    该类是ToolTalk数据集的处理
+
+    Attributes:
+        filename (str): the path of the file
+
+    Example:
+        >>> ToolTalk = ToolTalk("...")
+
+    """
     def __init__(self, folder_path="", tool_folder_path="", write_filename=""):
         self.folder_path = folder_path
         self.write_filename = write_filename
@@ -14,12 +24,10 @@ class ToolTalk:
         self.all_apis = {}
         self.get_tool_information()
         self.data = []
-        self.system_prompt = (
-            "You are a helpful assistant. Here is some user data:"
-            "\nlocation: {location}"
-            "\ntimestamp: {timestamp}"
-            "\nusername (if logged in): {username}"
-        )
+        self.system_prompt = "You are a helpful assistant. Here is some user data:" \
+                        "\nlocation: {location}" \
+                        "\ntimestamp: {timestamp}" \
+                        "\nusername (if logged in): {username}"
         self.load_data()
 
     def load_data(self):
@@ -45,12 +53,8 @@ class ToolTalk:
                 username_now = data["user"]["username"]
             else:
                 username_now = user_information["username"]
-            self.system_prompt = self.system_prompt.replace(
-                "{location}", user_information["location"]
-            )
-            self.system_prompt = self.system_prompt.replace(
-                "{timestamp}", user_information["timestamp"]
-            )
+            self.system_prompt = self.system_prompt.replace("{location}", user_information["location"])
+            self.system_prompt = self.system_prompt.replace("{timestamp}", user_information["timestamp"])
             self.system_prompt = self.system_prompt.replace("{username}", username_now)
 
             final_conv = [{"role": "system", "content": self.system_prompt}]
@@ -64,17 +68,11 @@ class ToolTalk:
                     for used_apis in i["apis"]:
                         temp_function_call = {}
                         temp_function_call["name"] = used_apis["request"]["api_name"]
-                        temp_function_call["parameters"] = used_apis["request"][
-                            "parameters"
-                        ]
+                        temp_function_call["parameters"] = used_apis["request"]["parameters"]
                         if used_apis["response"] != None:
-                            temp_function_call["function_result"] = used_apis[
-                                "response"
-                            ]
+                            temp_function_call["function_result"] = used_apis["response"]
                         else:
-                            temp_function_call["function_result"] = used_apis[
-                                "exception"
-                            ]
+                            temp_function_call["function_result"] = used_apis["exception"]
                         temp_conv["function_call"].append(temp_function_call)
                 final_conv.append(temp_conv)
 
@@ -87,19 +85,22 @@ class ToolTalk:
             temp_data["query"] = query
             self.data.append(temp_data)
 
+
+
+
+
     def get_tool_information(self):
+
         all_py_file_name = os.listdir(self.tool_folder_path)
         all_py_file_name.remove("api.py")
-        all_py_file_name.remove("exceptions.py")
-        all_py_file_name.remove("__init__.py")
-        all_py_file_name.remove("utils.py")
+        all_py_file_name.remove('exceptions.py')
+        all_py_file_name.remove('__init__.py')
+        all_py_file_name.remove('utils.py')
         for file_name in all_py_file_name:
             now_data_file = os.path.join(self.tool_folder_path, file_name)
             return_apis = get_all_tool_and_information(now_data_file)
             for api in return_apis:
                 self.all_apis[api["name"]] = api
-
-
 def get_all_tool_and_information(filename):
     apis = []
     with open(filename, "r") as source_code:
@@ -131,11 +132,8 @@ def get_all_tool_and_information(filename):
                 now_api["parameters"] = content
             elif parameter_name == "output":
                 now_api["output"] = content
-        if (
-            now_api.get("description", -1) != -1
-            and now_api.get("parameters", -1) != -1
-            and now_api.get("output", -1) != -1
-        ):
+        if now_api.get("description", -1) != -1 and now_api.get("parameters", -1) != -1 and now_api.get("output",
+                                                                                                        -1) != -1:
             apis.append(now_api)
 
     return apis

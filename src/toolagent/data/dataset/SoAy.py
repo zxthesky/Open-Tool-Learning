@@ -1,11 +1,20 @@
+from ...utils import read_JSON,write_JSON
+import re
 import json
 import os
-import re
-
-from toolagent.utils import read_JSON, write_JSON
-
 
 class SoAy:
+    """ dataset SoAy
+
+    该类是ToolTalk数据集的处理
+
+    Attributes:
+        filename (str): the path of the file
+
+    Example:
+        >>> SoAy = SoAy("...")
+
+    """
     def __init__(self,folder_path, tool_folder_path, prompt=""):
         self.folder_path = folder_path
         self.tool_folder_path = tool_folder_path

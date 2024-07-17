@@ -2,23 +2,45 @@ import re
 import json
 
 
-def process_model_response(response):
-    used_tool = re.search("\[[\s\S]*\]", response)
-    if used_tool is not None:
+def process_model_response_standard(response: str)->list:
+    """process model output to get tools
+
+    从模型的输出中获得调用的tool
+
+    Args:
+        response (str): model output
+
+    Returns:
+        list: tools information contain name and parameters
+
+    """
+    used_tools = re.search("\[[\s\S]*\]", response)
+    if used_tools != None:
         used_tool = re.search("\[[\s\S]*\]", response).group(0)
     else:
-        return None
+        return []
     try:
-        tool = json.loads(used_tool)
-    except:  # noqa: E722
+        tools = json.loads(used_tools)
+    except:
         print("the format of model's response is wrong")
-        tool = None
+        tools = []
 
-    return tool
+    return tools
 
 
-def process_api_bank_response(response):
+def process_api_bank_response(response: str)->list:
+    """ process api bank model response
 
+    处理 api bank 数据集模版下的response
+
+    Args:
+        response (str): model output
+
+    Returns:
+        list: tools information
+
+    """
+    final_tools= []
     try:
         used_tool = re.search("API-Request: \[[\s\S]*\]", response).group(0)
         tool_name = ""
@@ -66,11 +88,11 @@ def process_api_bank_response(response):
         function_call = {}
         function_call["name"] = tool_name
         function_call["parameters"] = parameter_dict
+        final_tools.append(function_call)
+    except:
+        return []
 
-    except:  # noqa: E722
-        function_call = {}
-
-    return function_call
+    return final_tools
 
 
 

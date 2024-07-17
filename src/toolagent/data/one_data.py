@@ -3,8 +3,18 @@ import re
 
 
 class one_data:
+    """ dataset SoAy
 
-    def __init__(self, data, template="default"):
+        该类是ToolTalk数据集的处理
+
+        Attributes:
+            filename (str): the path of the file
+
+        Example:
+            >>> SoAy = SoAy("...")
+
+        """
+    def __init__(self, data: dict, template="default"):
         self.data = data
         self.template = template
         self.id = self.data["id"]

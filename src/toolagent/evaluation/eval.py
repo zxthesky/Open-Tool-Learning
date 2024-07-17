@@ -1,17 +1,28 @@
+from ..model.llm.LLaMA import LLaMA
+from ..data.dataset.API_Bank import API_Bank
+from ..data.dataset.ToolEyes import ToolEyes
+from ..data.dataset.ToolTalk import ToolTalk
+from ..data.dataset.SoAy import SoAy
+from ..data.general_dataset import General_dataset
+from ..data.one_data import one_data
+
 import argparse
-import json
 import re
-
-from toolagent.data.dataset.API_Bank import API_Bank
-from toolagent.data.dataset.SoAy import SoAy
-from toolagent.data.dataset.ToolEyes import ToolEyes
-from toolagent.data.dataset.ToolTalk import ToolTalk
-from toolagent.data.general_dataset import General_dataset
-from toolagent.data.one_data import one_data
-from toolagent.model.llm.LLaMA import LLaMA
+import json
 
 
-def main(args):
+def main(args)->None:
+    """main function
+
+    主要的运行函数
+
+    Args:
+        args: args
+
+    Returns:
+        None
+
+    """
     test_dataset = get_data(args)
     model = get_model(args)
 
@@ -25,7 +36,16 @@ def main(args):
 
 
 ### we only need query, and wo need to seen the whole process
-def eval_whole_process(model, all_data):
+def eval_whole_process(model, all_data: list):
+    """eval whole process
+
+    给模型query，让模型评价整个生成过程
+
+    Args:
+        model: model
+        all_data (list): the raw data
+
+    """
     max_step = 0
     for data in all_data:
         data = one_data(data)
@@ -41,16 +61,18 @@ def eval_whole_process(model, all_data):
 
 
 ### we pass all history message and only eval the performance of model's next step, we only eval response including tool calling
-def eval_step_by_step(model, all_data):
-    '''
-    tool_p
-    tool_r
-    tool_f1
+def eval_step_by_step(model, all_data: list)->tuple:
+    """ eval model step by step
 
-    parameter_p
-    parameter_r
-    parameter_f1
-    '''
+    一步一步地评价模型，每次给定模型精标的上下文，只需要模型回答下一步的操作
+
+    Args:
+        model :model
+        all_data (list): raw data
+
+    Returns:
+        tuple: ((tool_r, tool_r, tool_f1), (parameter_p, parameter_r, parameter_f1))
+    """
 
     tool_gold_all = 0
     tool_predict_all = 0
@@ -93,15 +115,28 @@ def eval_step_by_step(model, all_data):
     parameter_r = parameter_right_number/parameter_gold_all
     parameter_f1 = 2*parameter_r*parameter_p/(parameter_r + parameter_p)
 
-    return (tool_r, tool_r, tool_f1), (parameter_p, parameter_r, parameter_f1)
+    return ((tool_r, tool_r, tool_f1), (parameter_p, parameter_r, parameter_f1))
 
 
 
 def get_model(args):
+    """get eval model
+
+    获得评价的模型
+
+    Args:
+        args: args
+
+    Returns:
+        model
+
+    """
     model_name = args.backbone_model
     model_path = args.model_path
     if model_name == "llama3":
         model = LLaMA(checkpoint_path=model_path)
+    elif model_name == "gpt":
+        model = Chatgpt(api_key=args.openai_key)
     else:
         model = LLaMA(checkpoint_path=model_path)
     return model
@@ -123,7 +158,18 @@ def get_data(args):
 
 
 ## we need to define the style of model's response
-def process_model_output(output):
+def process_model_output(output: str)->list:
+    """ process model output to get tools
+
+    处理模型的输出来获得工具
+
+    Args:
+        output (str): model output
+
+    Returns:
+        list: all tools
+
+    """
     used_tool = re.search("\[[\s\S]*\]", output)
     if used_tool != None:
         used_tool = re.search("\[[\s\S]*\]", output).group(0)
