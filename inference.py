@@ -25,8 +25,6 @@ def get_model(args):
     model_path = args.model_path
     if model_name == "llama3":
         model = LLaMA(checkpoint_path=model_path)
-    elif model_name == "gpt":
-        model = Chatgpt(api_key=args.openai_key)
     else:
         model = LLaMA(checkpoint_path=model_path)
     return model

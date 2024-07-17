@@ -3,15 +3,25 @@ import re
 
 
 class one_data:
-    """ dataset SoAy
+    """ a piece of data
 
-        该类是ToolTalk数据集的处理
+        这是一条数据的处理类，包含了如何利用template组装conversation，
+        以及历史信息的加入
 
         Attributes:
-            filename (str): the path of the file
+            data (dict): one data
+            template(str): your template
+            id (str): data_id
+            conversations (list): raw_data_conversations
+            candidate_tools (list): candidate tools
+            system (str): raw system message
+            query (str): raw user's query
+            chat_conv (list): split raw conversations into many son conv
+            chat_prompt (list): convert the data in chat_conv to str
 
         Example:
-            >>> SoAy = SoAy("...")
+            >>>data = {"id":1, "conversations":[], "candidate_tools":"...","query":"..."}
+            >>> one_data = one_data(data)
 
         """
     def __init__(self, data: dict, template="default"):
@@ -22,6 +32,7 @@ class one_data:
         self.candidate_tools = self.data["candidate_tools"]
         self.system = ""
         self.query = self.data["query"]
+
         self.chat_conv = []
         self.chat_prompt = []
 
